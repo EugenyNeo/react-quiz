@@ -1,64 +1,20 @@
-import React, {Component} from 'react'
-import {Route, Switch, Redirect, withRouter} from 'react-router-dom'
-import './App.css';
-import Layout from "./hoc/layout/Layout"
-import Quiz from './containers/Quiz/Quiz'
-import Auth from './containers/Auth/Auth'
-import QuizList from './containers/QuizList/QuizList'
-import QuizCreator from './containers/QuizCreator/QuizCreator'
-import {connect} from "react-redux";
-import Logout from "./components/Logout/Logout";
-import {autoLogin} from "./store/actions/auth";
+import React from 'react';
+import Layout from "./hoc/Layout/Layout";
 
 
 
-class  App extends Component{
-    componentDidMount() {
-        this.props.autoLogin()
-    }
+function App() {
+  return (
+      <Layout>
+        <div style={{width:200, border: '1px solid black'}}>
+            <h1>
+                Layout works
+            </h1>
 
-    render(){
-        let routes =(
-            <Switch>
-                <Route path="/auth" component={Auth}/>
-                <Route path="/quiz/:id" component={Quiz}/>
-                <Route path="/" component={QuizList}/>
-                <Redirect to={'/'}/>
-            </Switch>
-        )
-
-        if(this.props.isAuthenticated){
-            routes = (
-                <Switch>
-                    <Route path="/auth" component={Auth}/>
-                    <Route path="/quiz-creator" component={QuizCreator}/>
-                    <Route path="/quiz/:id" component={Quiz}/>
-                    <Route path="/logout" component={Logout}/>
-                    <Route path="/" exact component={QuizList}/>
-                    <Redirect to={'/'}/>
-                </Switch>
-            )
-        }
-
-     return (
-        <Layout>
-            {routes}
-        </Layout>
+        </div>
+      </Layout>
 
   );
 }
-}
 
-function mapStateToProps(state) {
-    return {
-        isAuthenticated: !!state.auth.token
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        autoLogin: ()=> dispatch(autoLogin())
-    }
-
-}
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App))
+export default App;
